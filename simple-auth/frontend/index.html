@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Регистрация и Логин</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Форма регистрации -->
+    <div class="form-container" id="register-form">
+      <h2>Регистрация</h2>
+      <form id="register">
+        <label for="register-username">Имя пользователя:</label>
+        <input type="text" id="register-username" required>
+
+        <label for="register-password">Пароль:</label>
+        <input type="password" id="register-password" required>
+
+        <button type="submit">Зарегистрироваться</button>
+      </form>
+    </div>
+
+    <!-- Форма логина -->
+    <div class="form-container" id="login-form">
+      <h2>Логин</h2>
+      <form id="login">
+        <label for="login-username">Имя пользователя:</label>
+        <input type="text" id="login-username" required>
+
+        <label for="login-password">Пароль:</label>
+        <input type="password" id="login-password" required>
+
+        <button type="submit">Войти</button>
+      </form>
+    </div>
+
+    <div id="message"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
