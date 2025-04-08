@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings </title>
+  <style>
+     h2{
+
+text-align: center;
+}
+    .sidebar {
+  width: 60px;
+  background-color: #1f0022;
+  color: white;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  
+  left: 0;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  overflow: hidden;
+  transition: width 0.3s ease;
+}
+
+.sidebar:hover {
+  width: 200px;
+  align-items: flex-start;
+  padding-left: 20px;
+}
+
+.sidebar h2 {
+  font-size: 16px;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar:hover h2 {
+  opacity: 1;
+}
+
+.side-btn {
+  background-color: #7e3ff2;
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  text-align: left;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar:hover .side-btn {
+  opacity: 1;
+}
+
+.main-content {
+  margin-left: 60px;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar:hover ~ .main-content {
+  margin-left: 200px;
+}
+  </style>
+</head>
+<body>
+ 
+
+    <aside class="sidebar">
+        <h2>Menu</h2>
+        <a href="dashboard.html">
+        <button class="side-btn">Dashboard </button>
+      </a>
+        <button class="side-btn">Library</button>
+        <button class="side-btn">Settings</button>
+        <button class="side-btn">Quit</button>
+        
+      </aside>
+      <p >Its just a page;</p>
+</body>

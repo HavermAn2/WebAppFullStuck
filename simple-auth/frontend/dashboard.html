@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Доска задач</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      color: whitesmoke;
+      background-color: rgb(56, 3, 56);
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    .board {
+      display: flex;
+      gap: 50px;
+    }
+
+    .column {
+      flex: 1;
+      background: #200f22;
+      padding: 10px;
+      border-radius: 8px;
+      color: white;
+    }
+
+    .task {
+      background: #2d1135;
+      color: white;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 4px;
+      transition: transform 0.2s ease, opacity 0.3s;
+    }
+
+    .task:hover {
+      transform: scale(1.02);
+      opacity: 0.95;
+    }
+
+    #taskForm {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+
+    #taskTitle {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 16px;
+    }
+
+    .btn-new {
+      background-color: #7e3ff2;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-new:hover {
+      background-color: #9b5efc;
+    }
+
+    @keyframes slideme {
+      0% {
+        left: -30px;
+        margin-left: 0px;
+      }
+      30% {
+        left: 110%;
+        margin-left: 80px;
+      }
+      100% {
+        left: 110%;
+        margin-left: 80px;
+      }
+    }
+
+    .btn-new:after {
+      content: "";
+      display: block;
+      width: 30px;
+      height: 200px;
+      margin-left: 60px;
+      background: #fff;
+      opacity: 0.5;
+      position: absolute;
+      left: -40px;
+      top: -100px;
+      z-index: 1;
+      transform: rotate(45deg);
+      transition: all 0.1s;
+      animation-name: slideme;
+      animation-duration: 3s;
+      animation-delay: 0.05s;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+    }
+
+    a.button {
+      background-color: #7e3ff2;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 6px;
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    a.button:hover {
+      background-color: #9b5efc;
+    }
+    .sidebar {
+  width: 60px;
+  background-color: #1f0022;
+  color: white;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  
+  left: 0;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  overflow: hidden;
+  transition: width 0.3s ease;
+}
+
+.sidebar:hover {
+  width: 200px;
+  align-items: flex-start;
+  padding-left: 20px;
+}
+
+.sidebar h2 {
+  font-size: 16px;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar:hover h2 {
+  opacity: 1;
+}
+
+.side-btn {
+  background-color: #7e3ff2;
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  text-align: left;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar:hover .side-btn {
+  opacity: 1;
+}
+
+.main-content {
+  margin-left: 60px;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar:hover ~ .main-content {
+  margin-left: 200px;
+}
+.task button.delete-btn {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: transparent;
+  border: none;
+  color: red;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+
+
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <h2>Menu</h2>
+    <button class="side-btn">Dashboard </button>
+    <button class="side-btn">Library</button>
+  
+    <a href = "settings.html">
+    <button class="side-btn">Settings</button>
+    </a>
+    <button class="side-btn">Quit</button>
+    
+  </aside>
+  
+    <main class="main-content">
+      <h1>Dashboard</h1>
+  
+      <form id="taskForm">
+        <input type="text" id="taskTitle" placeholder="Новая задача..." required>
+        <button type="submit" class="btn-new">Add</button>
+        
+      </form>
+  
+      <div class="board">
+        <div class="column" id="Planing"><h2>Planing</h2></div>
+        <div class="column" id="In Progress"><h2>In Progress</h2></div>
+        <div class="column" id="Done"><h2>Done</h2></div>
+      </div>
+  
+    </main>
+  
+    <script src="dashboard.js"></script>
+    
+  </body>
+  
+</html>
