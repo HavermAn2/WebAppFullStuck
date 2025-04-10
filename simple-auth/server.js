@@ -2,9 +2,11 @@ const express = require("express");
 const cors = require('cors');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const path = require("path");
 const app = express();
 app.use(express.json());
+app.use(express.static("frontend"));
+
 app.use(cors())
 
 const users = []; // временное хранилище пользователей
@@ -12,6 +14,33 @@ const JWT_SECRET = "super_secret_key"; // секрет для токена
 const tasks = []; // массив задач
 let taskId = 1; // уникальный ID
 
+
+
+
+
+//ChatAI
+app.post("/chat", async (req, res) => {
+  const { message } = req.body;
+
+  try {
+    const ollamaRes = await fetch("http://localhost:11434/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "mistral", // или llama3, codellama и т.д.
+        prompt: message,
+        stream: false
+      })
+    });
+
+    const data = await ollamaRes.json();
+    res.json({ reply: data.response.trim() });
+
+  } catch (err) {
+    console.error("Ошибка при обращении к Ollama:", err);
+    res.status(500).json({ error: "Ollama не отвечает" });
+  }
+});
 // Регистрация
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
