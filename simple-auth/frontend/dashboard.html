@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Доска задач</title>
+  <title>Dashboard</title>
   <style>
     body {
       font-family: sans-serif;
@@ -224,7 +224,7 @@
 
 .modal textarea {
   width: 100%;
-  height: 150px;
+  height: 600px;
   background: #333;
   color: white;
   border: none;
@@ -256,19 +256,17 @@
 
 
 .chat-box {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 500px;
+  width: 100%;
   background: #1f1f2f;
   color: white;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+  box-shadow: none;
   font-family: sans-serif;
   display: flex;
   flex-direction: column;
 }
+
 
 #chat-log {
   max-height: 500px;
@@ -306,6 +304,42 @@
   padding: 0 14px;
   cursor: pointer;
 }
+h3{
+  text-align: right;
+  color:#fff
+}
+.sideright {
+  width: 80px;
+  background-color: #1f0022;
+  color: white;
+  height: auto;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  z-index: 1000;
+}
+
+.sideright:hover {
+  width: 300px; /* ширина в раскрытом виде */
+  align-items: flex-start;
+  padding-left: 20px;
+}
+
+.sideright .chat-box {
+  display: none;
+}
+
+.sideright:hover .chat-box {
+  display: flex;
+}
 
 
   </style>
@@ -321,6 +355,17 @@
     </a>
     <button class="side-btn">Quit</button>
     
+  </aside>
+  <aside class = "sideright">
+    <h3>ChatAI</h3>
+      <!-- 💬 Chat UI -->
+<div class="chat-box">
+  <div id="chat-log"></div>
+  <form id="chat-form">
+    <input type="text" id="chat-input" placeholder="Спроси что-нибудь..." />
+    <button type="submit">💬</button>
+  </form>
+</div>
   </aside>
   
     <main class="main-content">
@@ -348,14 +393,7 @@
       </div>
     </div>
     
-  <!-- 💬 Chat UI -->
-<div class="chat-box">
-  <div id="chat-log"></div>
-  <form id="chat-form">
-    <input type="text" id="chat-input" placeholder="Спроси что-нибудь..." />
-    <button type="submit">💬</button>
-  </form>
-</div>
+
 
     <script src="dashboard.js"></script>
     
