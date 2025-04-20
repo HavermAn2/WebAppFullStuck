@@ -47,10 +47,6 @@ async function loadTasks() {
       });
       loadTasks();
     };
-    closeModalBtn.onclick = () => {
-      modal.style.display = "none";
-    };
-    
     div.onclick = () => {
       openModal(task);
     };
@@ -62,28 +58,19 @@ async function loadTasks() {
 }
 function openModal(task) {
   currentTaskId = task.id;
-  document.getElementById("modal").style.display = "flex";
+  textarea.value = task.note || "";
+  modal.style.display = "flex";
 }
-
 
 closeModalBtn.onclick = () => {
   modal.style.display = "none";
 };
-
-
-
-
-
 
 saveBtn.onclick = () => {
   console.log(`Сохраняем заметку для задачи #${currentTaskId}: ${textarea.value}`);
   // Здесь можешь реализовать отправку на сервер (PUT) или сохранить в localStorage
   modal.style.display = "none";
 };
-
-
-
-
 
 
 
