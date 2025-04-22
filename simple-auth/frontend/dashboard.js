@@ -58,17 +58,34 @@ async function loadTasks() {
 }
 function openModal(task) {
   currentTaskId = task.id;
-  textarea.value = task.note || "";
-  modal.style.display = "flex";
+  document.getElementById("modal").style.display = "flex";
+
+  // Очистка канваса перед загрузкой
+  const canvas = document.getElementById("modalCanvas");
+  canvas.innerHTML = "";
+  blocks = [];
+  connections = [];
+
+  // Здесь можно подгружать блоки из localStorage или сервера
+  // Пример: loadTaskBlocks(task.id);
 }
+
 
 closeModalBtn.onclick = () => {
   modal.style.display = "none";
 };
 
+
+
+
 saveBtn.onclick = () => {
   console.log(`Сохраняем заметку для задачи #${currentTaskId}: ${textarea.value}`);
   // Здесь можешь реализовать отправку на сервер (PUT) или сохранить в localStorage
+  //
+  //
+  //
+  //
+  //
   modal.style.display = "none";
 };
 
@@ -96,19 +113,19 @@ document.getElementById("chat-form").addEventListener("submit", async e => {
     const reply = data.reply;
     addChatMessage("Бот", reply);
 
-    // 🔍 Авто-добавление задач
-    if (reply.toLowerCase().includes("добавлена")) {
-      const match = reply.match(/"(.+?)"/);
-      if (match) {
-        const taskTitle = match[1];
-        await fetch("http://localhost:3000/tasks", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ title: taskTitle })
-        });
-        loadTasks(); // перезагрузка задач
-      }
-    }
+    // // 🔍 Авто-добавление задач
+    // if (reply.toLowerCase().includes("добавлена")) {
+    //   const match = reply.match(/"(.+?)"/);
+    //   if (match) {
+    //     const taskTitle = match[1];
+    //     await fetch("http://localhost:3000/tasks", {
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: JSON.stringify({ title: taskTitle })
+    //     });
+    //     loadTasks(); // перезагрузка задач
+    //   }
+    // }
 
   } catch (err) {
     addChatMessage("Бот", "❌ Ошибка соединения с сервером.");
