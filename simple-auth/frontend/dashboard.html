@@ -220,29 +220,24 @@ a.button:hover {
   background-color: rgba(0,0,0,0.6);
   justify-content: center;
   align-items: center;
+  
 }
 
 .modal-content {
   background: rgba(42, 42, 64, 0.7);
   padding: 20px;
   border-radius: 12px;
-  width: 80%;
+  width: 80%; /* ← Ширина модалки */
+  height: 80%; /* или 70vh для адаптивности */
+  overflow-y: auto;
   color: white;
   backdrop-filter: blur(12px);
-  position: fixed;
+  
   border: 1px solid rgba(255,255,255,0.1);
 }
 
-.modal textarea {
-  width: 100%;
-  height: 600px;
-  background: #333;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 10px;
-  margin-top: 10px;
-}
+
+
 
 .close {
   position: absolute;
@@ -403,16 +398,18 @@ a.button:hover {
 #chat-form button:hover {
   background: #9b5efc;
 }
-#canvas {
+#modal #canvas {
   position: relative;
   width: 100%;
-  height: 80vh;
-  margin-top: 30px;
+  height: 400px;
+  margin: 20px 0;
   border-radius: 12px;
   background: radial-gradient(ellipse at center, #1b0d2e 0%, #10061a 100%);
   overflow: hidden;
   box-shadow: 0 0 20px rgba(126, 63, 242, 0.1);
 }
+
+
 
 .block {
   position: absolute;
@@ -427,6 +424,24 @@ a.button:hover {
   backdrop-filter: blur(8px);
   user-select: none;
 }
+.obsidian-toolbar {
+  margin: 20px auto;
+  text-align: center;
+}
+#addBlock {
+  background-color: #7e3ff2;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(126, 63, 242, 0.5);
+}
+.block.selected {
+  outline: 2px dashed #00f9ff;
+}
+
 
 
 
@@ -436,15 +451,18 @@ a.button:hover {
 <body>
   <aside class="sidebar">
     <h2>Menu</h2>
-    <button class="side-btn">Dashboard </button>
-    <button class="side-btn">Library</button>
-  
-    <a href = "settings.html">
-    <button class="side-btn">Settings</button>
-    </a>
-    <button class="side-btn">Quit</button>
-    
+    <a href="dashboard.html"><button class="side-btn">📊 Dashboard</button></a>
+    <button class="side-btn">📚 Library</button>
+    <a href="settings.html"><button class="side-btn">⚙️ Settings</button></a>
+    <button class="side-btn">🚪 Quit</button>
   </aside>
+
+
+
+
+
+
+
   <aside class = "sideright">
     <h3>ChatAI</h3>
       <!-- 💬 Chat UI -->
@@ -457,35 +475,48 @@ a.button:hover {
 </div>
   </aside>
   
+
+
+
+
+
+
     <main class="main-content">
       <h1>Dashboard</h1>
-      <div id="canvas">
-        <div class="block" id="block1" style="top: 100px; left: 100px;">Блок 1</div>
-        <div class="block" id="block2" style="top: 300px; left: 300px;">Блок 2</div>
-      </div>
-      
       <form id="taskForm">
         <input type="text" id="taskTitle" placeholder="Новая задача..." required>
         <button type="submit" class="btn-new">Add</button>
-        
       </form>
-  
       <div class="column" id="Tasks">
         <h2>Tasks</h2>
       </div>
-      
-  
     </main>
+
+
+
+
+
+
+
 
     <div id="modal" class="modal">
       <div class="modal-content">
         <span id="closeModal" class="close">&times;</span>
-        <h3>Редактировать задачу</h3>
-        <textarea id="taskNote" placeholder="Заметка к задаче...  P.S: You can use AI to solve your problem"></textarea>
+        <h3>Заметки к задаче</h3>
+    
+        <div class="obsidian-toolbar">
+          <button id="addBlock">➕ Добавить блок</button>
+        </div>
+    
+        <div id="modalCanvas"></div>
+    
         <button id="saveNote">Сохранить</button>
       </div>
     </div>
     
+    
+
+
 
 
     <script src="dashboard.js"></script>
@@ -498,58 +529,93 @@ a.button:hover {
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leader-line/1.0.7/leader-line.min.js"></script>
     <script>
-      const makeDraggable = (element) => {
+      let blocks = [];
+      let connections = [];
+      let selectedBlocks = [];
+    
+      
+      const canvas = document.getElementById("modalCanvas"); // было: modal.querySelector
+
+      const addBlockBtn = document.getElementById("addBlock");
+    
+      addBlockBtn.addEventListener("click", () => {
+  if (!canvas) {
+    console.error("⚠️ Canvas не найден внутри модального окна.");
+    return;
+  }
+
+  const block = document.createElement("div");
+  block.className = "block";
+  block.contentEditable = true;
+  block.textContent = "Новая заметка";
+  block.style.left = Math.random() * 200 + "px";
+  block.style.top = Math.random() * 200 + "px";
+
+  canvas.appendChild(block);
+  makeDraggable(block);
+
+  block.addEventListener("click", (e) => {
+    if (e.ctrlKey) {
+      block.classList.toggle("selected");
+      toggleSelectBlock(block);
+      if (selectedBlocks.length === 2) {
+        connectBlocks(selectedBlocks[0], selectedBlocks[1]);
+        selectedBlocks.forEach(b => b.classList.remove("selected"));
+        selectedBlocks = [];
+      }
+    }
+  });
+});
+    
+      function makeDraggable(element) {
         let isDragging = false;
         let offsetX, offsetY;
     
-        element.addEventListener('mousedown', (e) => {
+        element.addEventListener("mousedown", (e) => {
           isDragging = true;
           offsetX = e.clientX - element.offsetLeft;
           offsetY = e.clientY - element.offsetTop;
           element.style.zIndex = 1000;
         });
     
-        document.addEventListener('mousemove', (e) => {
+        document.addEventListener("mousemove", (e) => {
           if (isDragging) {
-            element.style.left = e.clientX - offsetX + 'px';
-            element.style.top = e.clientY - offsetY + 'px';
-            updateLine(); // Обновляем линию
+            element.style.left = e.clientX - offsetX + "px";
+            element.style.top = e.clientY - offsetY + "px";
+            updateConnections();
           }
         });
     
-        document.addEventListener('mouseup', () => {
+        document.addEventListener("mouseup", () => {
           isDragging = false;
-          element.style.zIndex = '';
+          element.style.zIndex = "";
         });
-      };
-    
-      // Применяем к блокам
-      const block1 = document.getElementById('block1');
-      const block2 = document.getElementById('block2');
-      makeDraggable(block1);
-      makeDraggable(block2);
-    
-      // Стрелка
-      let line = null;
-      function updateLine() {
-        if (line) line.remove();
-        line = new LeaderLine(
-          document.getElementById('block1'),
-          document.getElementById('block2'),
-          {
-            color: '#9b5efc',
-            size: 4,
-            path: 'straight',
-            startPlug: 'disc',
-            endPlug: 'arrow3'
-          }
-        );
       }
     
-      updateLine();
+      function toggleSelectBlock(block) {
+        if (selectedBlocks.includes(block)) {
+          selectedBlocks = selectedBlocks.filter(b => b !== block);
+        } else {
+          selectedBlocks.push(block);
+        }
+      }
+    
+      function connectBlocks(b1, b2) {
+        const line = new LeaderLine(b1, b2, {
+          color: '#00f9ff',
+          size: 3,
+          startPlug: 'disc',
+          endPlug: 'arrow3',
+        });
+        connections.push({ b1, b2, line });
+      }
+    
+      function updateConnections() {
+        connections.forEach(conn => {
+          conn.line.position();
+        });
+      }
     </script>
-    
-    
   </body>
   
 </html>
