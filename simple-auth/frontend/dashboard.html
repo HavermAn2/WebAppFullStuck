@@ -248,7 +248,11 @@ a.button:hover {
 }
 
 #saveNote {
-  margin-top: 10px;
+  position: fixed;
+  bottom: 20px; /* отступ от нижнего края */
+  left: 50%;    /* перемещаем в центр */
+  transform: translateX(-50%); /* сдвигаем назад на 50% ширины */
+  
   background: #7e3ff2;
   color: white;
   border: none;
@@ -256,7 +260,9 @@ a.button:hover {
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.3s;
+  z-index: 100; /* чтобы не перекрывали другие элементы */
 }
+
 
 #saveNote:hover {
   background: #9b5efc;
@@ -398,20 +404,21 @@ a.button:hover {
 #chat-form button:hover {
   background: #9b5efc;
 }
-#modal #canvas {
+#modalCanvas {
   position: relative;
   width: 100%;
-  height: 400px;
+  height: 100px;
   margin: 20px 0;
   border-radius: 12px;
   background: radial-gradient(ellipse at center, #1b0d2e 0%, #10061a 100%);
   overflow: hidden;
   box-shadow: 0 0 20px rgba(126, 63, 242, 0.1);
+  flex: 1;
 }
 
 
 
-.block {
+.block, .note{
   position: absolute;
   min-width: 160px;
   padding: 20px;
@@ -442,6 +449,17 @@ a.button:hover {
   outline: 2px dashed #00f9ff;
 }
 
+.leader-line {
+  z-index: 3000 !important;
+  pointer-events: none;
+}
+
+.canvas-wrapper {
+  height: 50%;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
 
 
 
@@ -501,16 +519,15 @@ a.button:hover {
 
     <div id="modal" class="modal">
       <div class="modal-content">
-        <span id="closeModal" class="close">&times;</span>
-        <h3>Заметки к задаче</h3>
-    
+        <h1>Plan</h1>
         <div class="obsidian-toolbar">
-          <button id="addBlock">➕ Добавить блок</button>
+          <button id="addBlock">➕ Block</button>
+          <button id="addNote">➕ Note</button>
         </div>
-    
-        <div id="modalCanvas"></div>
-    
-        <button id="saveNote">Сохранить</button>
+        <div class="canvas-wrapper">
+          <div id="modalCanvas"></div>
+        </div>
+        <button id="saveNote">Save</button>
       </div>
     </div>
     
@@ -534,87 +551,135 @@ a.button:hover {
       let selectedBlocks = [];
     
       
-      const canvas = document.getElementById("modalCanvas"); // было: modal.querySelector
+      const canvas = document.getElementById("modalCanvas");
+const addBlockBtn = document.getElementById("addBlock");
+const addNoteBtn = document.getElementById("addNote");
 
-      const addBlockBtn = document.getElementById("addBlock");
-    
-      addBlockBtn.addEventListener("click", () => {
-  if (!canvas) {
-    console.error("⚠️ Canvas не найден внутри модального окна.");
-    return;
-  }
-
+addBlockBtn.addEventListener("click", () => {
   const block = document.createElement("div");
   block.className = "block";
   block.contentEditable = true;
-  block.textContent = "Новая заметка";
+  block.textContent = "Write something";
+  block.style.position = "absolute";
   block.style.left = Math.random() * 200 + "px";
   block.style.top = Math.random() * 200 + "px";
 
   canvas.appendChild(block);
   makeDraggable(block);
+  attachClickHandler(block);
+});
 
-  block.addEventListener("click", (e) => {
+addNoteBtn.addEventListener("click", () => {
+  const note = document.createElement("div");
+  note.className = "note";
+  note.contentEditable = true;
+  note.textContent = "Write something...";
+  note.style.position = "absolute";
+  note.style.left = Math.random() * 400 + "px";
+  note.style.top = Math.random() * 400 + "px";
+
+  canvas.appendChild(note);
+  makeDraggable(note);
+  attachClickHandler(note);
+});
+
+function attachClickHandler(element) {
+  element.addEventListener("click", (e) => {
     if (e.ctrlKey) {
-      block.classList.toggle("selected");
-      toggleSelectBlock(block);
+      element.classList.toggle("selected");
+      toggleSelectBlock(element);
+
       if (selectedBlocks.length === 2) {
         connectBlocks(selectedBlocks[0], selectedBlocks[1]);
-        selectedBlocks.forEach(b => b.classList.remove("selected"));
+        selectedBlocks.forEach(el => el.classList.remove("selected"));
         selectedBlocks = [];
       }
     }
   });
-});
-    
-      function makeDraggable(element) {
-        let isDragging = false;
-        let offsetX, offsetY;
-    
-        element.addEventListener("mousedown", (e) => {
-          isDragging = true;
-          offsetX = e.clientX - element.offsetLeft;
-          offsetY = e.clientY - element.offsetTop;
-          element.style.zIndex = 1000;
-        });
-    
-        document.addEventListener("mousemove", (e) => {
-          if (isDragging) {
-            element.style.left = e.clientX - offsetX + "px";
-            element.style.top = e.clientY - offsetY + "px";
-            updateConnections();
-          }
-        });
-    
-        document.addEventListener("mouseup", () => {
-          isDragging = false;
-          element.style.zIndex = "";
-        });
-      }
-    
-      function toggleSelectBlock(block) {
-        if (selectedBlocks.includes(block)) {
-          selectedBlocks = selectedBlocks.filter(b => b !== block);
-        } else {
-          selectedBlocks.push(block);
-        }
-      }
-    
-      function connectBlocks(b1, b2) {
-        const line = new LeaderLine(b1, b2, {
-          color: '#00f9ff',
-          size: 3,
-          startPlug: 'disc',
-          endPlug: 'arrow3',
-        });
-        connections.push({ b1, b2, line });
-      }
-    
-      function updateConnections() {
-        connections.forEach(conn => {
-          conn.line.position();
-        });
-      }
+}
+
+function toggleSelectBlock(block) {
+  if (selectedBlocks.includes(block)) {
+    selectedBlocks = selectedBlocks.filter(b => b !== block);
+  } else {
+    selectedBlocks.push(block);
+  }
+}
+
+function connectBlocks(b1, b2) {
+  const line = new LeaderLine(b1, b2, {
+    color: '#00f9ff',
+    size: 3,
+    startPlug: 'disc',
+    endPlug: 'arrow3',
+  });
+
+  // Установка z-index с задержкой (вчера обсуждали)
+  setTimeout(() => {
+    if (line.line) {
+      line.line.style.zIndex = 3000;
+      line.line.style.pointerEvents = "none";
+    }
+  }, 100);
+
+  connections.push({ b1, b2, line });
+}
+
+function makeDraggable(element) {
+  let isDragging = false;
+  let offsetX, offsetY;
+
+  element.addEventListener("mousedown", (e) => {
+    const rect = element.getBoundingClientRect();
+    const edgeSize = 16;
+
+    if (
+      e.clientX > rect.right - edgeSize &&
+      e.clientY > rect.bottom - edgeSize
+    ) return;
+
+    isDragging = true;
+    offsetX = e.clientX - element.offsetLeft;
+    offsetY = e.clientY - element.offsetTop;
+    element.style.zIndex = 1000;
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (isDragging) {
+      const parent = element.parentElement;
+      const parentRect = parent.getBoundingClientRect();
+
+      const toolbarHeight = 80;   // высота заголовка и кнопок сверху
+      const footerHeight = 60;    // высота нижней кнопки Save
+
+      let newLeft = e.clientX - offsetX;
+      let newTop = e.clientY - offsetY;
+
+      // по горизонтали — просто в пределах canvas
+      newLeft = Math.max(0, Math.min(newLeft, parent.clientWidth - element.offsetWidth));
+
+      // по вертикали — ограничиваем между toolbar и save
+      newTop = Math.max(toolbarHeight, Math.min(newTop, parent.clientHeight - footerHeight - element.offsetHeight));
+
+      element.style.left = newLeft + "px";
+      element.style.top = newTop + "px";
+
+      updateConnections();
+    }
+  });
+
+  document.addEventListener("mouseup", () => {
+    isDragging = false;
+    element.style.zIndex = "";
+  });
+}
+
+
+function updateConnections() {
+  connections.forEach(conn => {
+    conn.line.position();
+  });
+}
     </script>
   </body>
   
