@@ -1,93 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Settings </title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings</title>
   <style>
-     h2{
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      color: #f3f3f3;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      transition: background 0.5s ease, color 0.5s ease;
+    }
 
-text-align: center;
-}
+    h2 {
+      text-align: center;
+      text-shadow: 0 0 10px #7e3ff2;
+      margin-top: 40px;
+    }
+
     .sidebar {
-  width: 60px;
-  background-color: #1f0022;
-  color: white;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  
-  left: 0;
-  padding: 20px 10px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  overflow: hidden;
-  transition: width 0.3s ease;
-}
+      width: 60px;
+      background-color: rgba(31, 0, 34, 0.8);
+      color: white;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 20px 10px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      overflow: hidden;
+      transition: width 0.3s ease;
+      backdrop-filter: blur(10px);
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+    }
 
-.sidebar:hover {
-  width: 200px;
-  align-items: flex-start;
-  padding-left: 20px;
-}
+    .sidebar:hover {
+      width: 200px;
+      align-items: flex-start;
+      padding-left: 20px;
+    }
 
-.sidebar h2 {
-  font-size: 16px;
-  margin: 0;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
+    .sidebar h2 {
+      font-size: 16px;
+      margin: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
 
-.sidebar:hover h2 {
-  opacity: 1;
-}
+    .sidebar:hover h2 {
+      opacity: 1;
+    }
 
-.side-btn {
-  background-color: #7e3ff2;
-  border: none;
-  color: white;
-  padding: 10px;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 100%;
-  text-align: left;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
+    .side-btn {
+      background-color: #7e3ff2;
+      border: none;
+      color: white;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
 
-.sidebar:hover .side-btn {
-  opacity: 1;
-}
+    .sidebar:hover .side-btn {
+      opacity: 1;
+    }
 
-.main-content {
-  margin-left: 60px;
-  padding: 20px;
-  transition: margin-left 0.3s ease;
-}
+    .main-content {
+      margin-left: 60px;
+      padding: 40px;
+      transition: margin-left 0.3s ease;
+    }
 
-.sidebar:hover ~ .main-content {
-  margin-left: 200px;
-}
+    .sidebar:hover ~ .main-content {
+      margin-left: 200px;
+    }
+
+    .settings-block {
+      background: rgba(45, 17, 53, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 20px rgba(126, 63, 242, 0.2);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .settings-block label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #ccc;
+    }
+
+    .settings-block input,
+    .settings-block select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background-color: #2c2c3c;
+      color: white;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .btn-apply {
+      background-color: #7e3ff2;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn-apply:hover {
+      background-color: #9b5efc;
+      box-shadow: 0 0 10px #9b5efc;
+    }
   </style>
 </head>
 <body>
- 
 
-    <aside class="sidebar">
-        <h2>Menu</h2>
-        <a href="dashboard.html">
-        <button class="side-btn">Dashboard </button>
-      </a>
-        <button class="side-btn">Library</button>
-        <button class="side-btn">Settings</button>
-        <button class="side-btn">Quit</button>
-        
-      </aside>
-      <p >Its just a page;</p>
+  <aside class="sidebar">
+    <h2>Menu</h2>
+    <a href="dashboard.html"><button class="side-btn">Dashboard</button></a>
+    <button class="side-btn">Library</button>
+    <button class="side-btn">Settings</button>
+    <button class="side-btn">Quit</button>
+  </aside>
+
+  <div class="main-content">
+    <h2>Site Settings</h2>
+
+    <div class="settings-block">
+      <label for="fontSize">Font Size</label>
+      <input type="range" id="fontSize" min="12" max="24" value="16" />
+      
+      <label for="textColor">Text Color</label>
+      <input type="color" id="textColor" value="#f3f3f3" />
+
+      <label for="themeSelect">Theme</label>
+      <select id="themeSelect">
+        <option value="dark" selected>Dark (Default)</option>
+        <option value="light">Light</option>
+      </select>
+
+      <button class="btn-apply" onclick="applySettings()">Apply Settings</button>
+      <script>
+        function applySettings() {
+          const fontSize = document.getElementById('fontSize').value + 'px';
+          const textColor = document.getElementById('textColor').value;
+          const theme = document.getElementById('themeSelect').value;
+      
+          // Применяем настройки прямо сейчас
+          document.body.style.fontSize = fontSize;
+          document.body.style.color = textColor;
+          document.body.style.background = theme === 'light'
+            ? 'linear-gradient(135deg, #ffffff, #dcdcdc)'
+            : 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)';
+      
+          // Сохраняем настройки в localStorage
+          localStorage.setItem('siteSettings', JSON.stringify({
+            fontSize,
+            textColor,
+            theme
+          }));
+        }
+      
+        // Загружаем сохранённые настройки при открытии страницы
+        window.addEventListener('DOMContentLoaded', () => {
+          const saved = JSON.parse(localStorage.getItem('siteSettings'));
+          if (saved) {
+            document.body.style.fontSize = saved.fontSize;
+            document.body.style.color = saved.textColor;
+            document.body.style.background = saved.theme === 'light'
+              ? 'linear-gradient(135deg, #ffffff, #dcdcdc)'
+              : 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)';
+      
+            // Если есть форма — заполняем её значениями
+            if (document.getElementById('fontSize')) {
+              document.getElementById('fontSize').value = parseInt(saved.fontSize);
+              document.getElementById('textColor').value = saved.textColor;
+              document.getElementById('themeSelect').value = saved.theme;
+            }
+          }
+        });
+      </script>
+      
+    </div>
+  </div>
+
+  <script>
+    function applySettings() {
+      const fontSize = document.getElementById('fontSize').value + 'px';
+      const textColor = document.getElementById('textColor').value;
+      const theme = document.getElementById('themeSelect').value;
+
+      document.body.style.fontSize = fontSize;
+      document.body.style.color = textColor;
+
+      if (theme === 'light') {
+        document.body.style.background = 'linear-gradient(135deg, #ffffff, #dcdcdc)';
+      } else {
+        document.body.style.background = 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)';
+      }
+    }
+  </script>
+
 </body>
+</html>
