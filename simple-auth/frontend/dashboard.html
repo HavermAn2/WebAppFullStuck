@@ -213,7 +213,7 @@ a.button:hover {
   display: none;
   position: fixed;
   z-index: 10;
-  left: 0;
+  left: 5;
   top: 0;
   width: 100%;
   height: 100%;
@@ -232,7 +232,8 @@ a.button:hover {
   overflow-y: auto;
   color: white;
   backdrop-filter: blur(12px);
-  
+  display: flex;
+  flex-direction: column;
   border: 1px solid rgba(255,255,255,0.1);
 }
 
@@ -407,8 +408,8 @@ a.button:hover {
 #modalCanvas {
   position: relative;
   width: 100%;
-  height: 100px;
-  margin: 20px 0;
+  height: 90%;
+  margin: 10px 0;
   border-radius: 12px;
   background: radial-gradient(ellipse at center, #1b0d2e 0%, #10061a 100%);
   overflow: hidden;
@@ -647,19 +648,13 @@ function makeDraggable(element) {
   document.addEventListener("mousemove", (e) => {
     if (isDragging) {
       const parent = element.parentElement;
-      const parentRect = parent.getBoundingClientRect();
-
-      const toolbarHeight = 80;   // высота заголовка и кнопок сверху
-      const footerHeight = 60;    // высота нижней кнопки Save
 
       let newLeft = e.clientX - offsetX;
       let newTop = e.clientY - offsetY;
 
-      // по горизонтали — просто в пределах canvas
+      // Ограничиваем строго внутри canvas
       newLeft = Math.max(0, Math.min(newLeft, parent.clientWidth - element.offsetWidth));
-
-      // по вертикали — ограничиваем между toolbar и save
-      newTop = Math.max(toolbarHeight, Math.min(newTop, parent.clientHeight - footerHeight - element.offsetHeight));
+      newTop = Math.max(0, Math.min(newTop, parent.clientHeight - element.offsetHeight));
 
       element.style.left = newLeft + "px";
       element.style.top = newTop + "px";
@@ -675,12 +670,28 @@ function makeDraggable(element) {
 }
 
 
+
 function updateConnections() {
   connections.forEach(conn => {
     conn.line.position();
   });
 }
     </script>
+
+
+<script>
+    // Применение настроек из localStorage на всех страницах
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = JSON.parse(localStorage.getItem('siteSettings'));
+      if (saved) {
+        document.body.style.fontSize = saved.fontSize;
+        document.body.style.color = saved.textColor;
+        document.body.style.background = saved.theme === 'light'
+          ? 'linear-gradient(135deg, #ffffff, #dcdcdc)'
+          : 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)';
+      }
+    });
+  </script>
   </body>
   
 </html>
