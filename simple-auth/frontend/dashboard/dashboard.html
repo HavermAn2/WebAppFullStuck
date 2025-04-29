@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="styles_dashboard.css">
+  
+
+</head>
+<body>
+  <aside class="sidebar">
+    <h2>Menu</h2>
+    <a href="dashboard.html"><button class="side-btn">📊 Dashboard</button></a>
+    <button class="side-btn">📚 Library</button>
+    <a href="settings.html"><button class="side-btn">⚙️ Settings</button></a>
+    <button class="side-btn">🚪 Quit</button>
+  </aside>
+
+
+
+  <aside class = "sideright">
+    <h3>ChatAI</h3>
+      <!-- 💬 Chat UI -->
+<div class="chat-box">
+  <div id="chat-log"></div>
+  <form id="chat-form">
+    <input type="text" id="chat-input" placeholder="Спроси что-нибудь..." />
+    <button type="submit">💬</button>
+  </form>
+</div>
+  </aside>
+  
+
+    <main class="main-content">
+      <h1>Dashboard</h1>
+      <form id="taskForm">
+        <input type="text" id="taskTitle" placeholder="New Task" required>
+        <button type="submit" class="btn-new">Add</button>
+      </form>
+      <div class="column" id="Tasks">
+        <h2>Tasks</h2>
+      </div>
+    </main>
+
+
+
+    <div id="modal" class="modal">
+      <div class="obsidian-toolbar">
+        <button id="addBlock">➕ Block</button>
+        <button id="addNote">➕ Note</button>
+      </div>
+      <div class="modal-content">
+        <h1>Plan</h1>
+        
+        <!-- <div class="canvas-wrapper"> -->
+          <div id="modalCanvas" class="canvas-large"></div>
+        <!-- </div> -->
+        <button id="saveNote">Save</button>
+      </div>
+    </div>
+
+
+
+    
+    <button id="toggleChat" title="Открыть чат">💬</button>
+    <script>
+      document.getElementById('toggleChat').addEventListener('click', () => {
+        const chatPanel = document.querySelector('.sideright');
+        chatPanel.classList.toggle('open');
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leader-line/1.0.7/leader-line.min.js"></script>
+    
+
+
+
+
+
+    <div id="contextMenu" class="context-menu">
+      <div class="context-menu-item" id="deleteTask">🗑 Удалить</div>
+      <div class="context-menu-item" id="redactTask">  Redact</div>
+    </div>
+    <script src="dashboard.js"></script>
+    <script src="block-system.js"></script>
+  </body>
+  
+</html>

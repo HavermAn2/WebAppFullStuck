@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Вход и Регистрация</title>
+  
+  <!-- <h1>Вход и Регистрация</h1> -->
   <style>
     * {
       margin: 0;
@@ -12,14 +13,24 @@
     }
 
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      color: #f3f3f3;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  color: #f3f3f3;
+  display: flex;
+  flex-direction: column; /* <<< добавляем колонку */
+  align-items: center;
+  height: 100vh;
+  padding-top: 40px; /* немного отступить сверху */
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); /* затемнение */
+  z-index: -1;
+}
+
 
     .container {
       width: 100%;
@@ -32,12 +43,12 @@
       border: 1px solid rgba(255,255,255,0.1);
     }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #9b5efc;
-      text-shadow: 0 0 10px #7e3ff2;
-    }
+    h2,h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #9b5efc;
+  text-shadow: 0 0 10px #7e3ff2;
+}
 
     label {
       margin-bottom: 6px;
@@ -94,30 +105,31 @@
   </style>
 </head>
 <body>
+  <h1>NeuroNotes </h1>
   <div class="container">
     <div class="form-container" id="register-form">
-      <h2>Регистрация</h2>
+      <h2>Sign up</h2>
       <form id="register">
-        <label for="register-username">Имя пользователя:</label>
+        <label for="register-username">Username:</label>
         <input type="text" id="register-username" required>
 
-        <label for="register-password">Пароль:</label>
+        <label for="register-password">Password:</label>
         <input type="password" id="register-password" required>
 
-        <button type="submit">Зарегистрироваться</button>
+        <button type="submit">Sign up!</button>
       </form>
     </div>
 
     <div class="form-container" id="login-form">
-      <h2>Вход</h2>
+      <h2>Sign in</h2>
       <form id="login">
-        <label for="login-username">Имя пользователя:</label>
+        <label for="login-username">username:</label>
         <input type="text" id="login-username" required>
 
-        <label for="login-password">Пароль:</label>
+        <label for="login-password">Password:</label>
         <input type="password" id="login-password" required>
 
-        <button type="submit">Войти</button>
+        <button type="submit">Sign in!</button>
       </form>
     </div>
 

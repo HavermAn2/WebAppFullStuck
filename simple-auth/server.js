@@ -4,8 +4,12 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const app = express();
+const fs = require('fs');
+
 app.use(express.json());
-app.use(express.static("frontend"));
+
+app.use(express.static('frontend'));
+
 
 app.use(cors())
 
@@ -27,7 +31,7 @@ app.post("/chat", async (req, res) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "mistral", // или llama3, codellama и т.д.
+        model: "mistral", 
         prompt: message,
         stream: false
       })
@@ -75,6 +79,20 @@ app.post("/login", async (req, res) => {
 
   res.json({ message: "Вход успешен", token });
 });
+
+
+app.post('/save', (req, res) => {
+  const data = req.body;
+
+  fs.writeFileSync(path.join(__dirname, 'savedData.json'), JSON.stringify(data, null, 2));
+
+  res.sendStatus(200);
+});
+
+
+
+
+
 
 // Получение списка пользователей
 app.get("/users", (req, res) => {
