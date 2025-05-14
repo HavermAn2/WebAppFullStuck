@@ -10,8 +10,9 @@
 <body>
   <aside class="sidebar">
     <h2>Menu</h2>
+    <a href="main.html"><button class="side-btn">📊 MAIN</button></a>
     <a href="dashboard.html"><button class="side-btn">📊 Dashboard</button></a>
-    <button class="side-btn">📚 Library</button>
+    <a href=""></a><button class="side-btn">📚 Library</button></a>
     <a href="settings.html"><button class="side-btn">⚙️ Settings</button></a>
     <button class="side-btn">🚪 Quit</button>
   </aside>
@@ -44,21 +45,23 @@
 
 
 
-    <div id="modal" class="modal">
-      <div class="obsidian-toolbar">
-        <button id="addBlock">➕ Block</button>
-        <button id="addNote">➕ Note</button>
-      </div>
+     <div id="modal" class="modal" style="display: none;">
       <div class="modal-content">
-        <h1>Plan</h1>
+        <div class="modal-toolbar">
+          <h1>Plan</h1>
+          <div class="obsidian-toolbar">
+            <button id="addBlock">Block</button>
+            <button id="addNote">Note</button>
+          </div>
+        </div>
         
-        <!-- <div class="canvas-wrapper"> -->
-          <div id="modalCanvas" class="canvas-large"></div>
-        <!-- </div> -->
+        <div id="modalCanvas" class="canvas-large"></div>
         <button id="saveNote">Save</button>
       </div>
-    </div>
-
+    </div> 
+     
+    
+    
 
 
     
@@ -77,8 +80,10 @@
 
 
     <div id="contextMenu" class="context-menu">
-      <div class="context-menu-item" id="deleteTask">🗑 Удалить</div>
+      <div class="context-menu-item" id="deleteTask"> Delete</div>
       <div class="context-menu-item" id="redactTask">  Redact</div>
+      <div class="context-menu-item" id="TagTask">  Tag as done</div>
+      <div class="context-menu-item" id="LibraryTask">  To Library</div>
     </div>
     <script src="dashboard.js"></script>
     <script src="block-system.js"></script>

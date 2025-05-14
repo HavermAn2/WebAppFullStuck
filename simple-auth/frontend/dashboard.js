@@ -6,11 +6,11 @@
   const modal = document.getElementById("modalCanvas");
   const closeModalBtn = document.getElementById("closeModal");
   const textarea = document.getElementById("taskNote");
-  const redactBtn = document.getElementById('redactTask')
+  const redactBtn = document.getElementById('redactTask');
   const deleteBtn = document.getElementById('deleteTask');
   let currentTaskId = null;
-  
   const taskColumn = document.getElementById("Tasks");
+
   
   // Добавление задачи
   document.getElementById("taskForm").addEventListener("submit", async (e) => {
@@ -32,13 +32,13 @@
     const res = await fetch("http://localhost:3000/tasks");
     const tasks = await res.json();
   
-    taskColumn.innerHTML = "<h2>Tasks</h2>"; // очистить колонку
+    taskColumn.innerHTML = "<h2>Tasks</h2>";
   
     tasks.forEach(task => {
       const div = document.createElement("div");
       div.className = "task";
       div.textContent = task.title;
-      div.dataset.id = task.id; // добавь это!
+      div.dataset.id = task.id; 
   
   
       // // Кнопка удаления

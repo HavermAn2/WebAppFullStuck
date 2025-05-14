@@ -1,0 +1,16 @@
+{
+  "blocks": [
+    {
+      "type": "note",
+      "text": "Write something...",
+      "left": "159px",
+      "top": "27px"
+    },
+    {
+      "type": "block",
+      "text": "Write something",
+      "left": "962px",
+      "top": "879px"
+    }
+  ]
+}
